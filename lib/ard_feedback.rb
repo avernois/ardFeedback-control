@@ -3,6 +3,8 @@ require 'xmlsimple'
 require "serialport"
 require 'net/http'
 require 'uri'
+require "trollop"
+
 
 class ArdFeedback
 
@@ -57,15 +59,30 @@ class ArdFeedback
 end
 
 
+class ArdFeedbackArgs
+  def self.parse_args
+    Trollop::options do
+      opt :jenkins, "jenkins api url", :default => "http://localhost:8080/api/xml", :short => "-j"
+      opt :serial, "Serial port use to communicate with arduino", :short => "-s", :default => "/dev/ttyACM0"
+      opt :refresh, "Delay between requests to jenkins (in seconds)", :short => "-r", :type => Integer, :default => 30
+    end
+
+  end
+end
+
 if $0 == __FILE__
-  serial = SerialPort.new("/dev/ttyACM0", 9600)
+  args = ArdFeedbackArgs.parse_args
+  serial = SerialPort.new(args[:serial], 9600)
   feedback = ArdFeedback.new serial
 
   while(true)
-    xml_content = Net::HTTP::get(URI::parse("http://localhost:8080/api/xml"))
+    xml_content = Net::HTTP::get(URI::parse(args[:jenkins]))
     status = feedback.get_status(xml_content)
     feedback.light_led(status)
 
-    sleep(2)
+    sleep(args[:refresh])
   end
 end
+
+
+
