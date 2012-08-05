@@ -13,15 +13,14 @@ Usage
 
 	ruby lib/ard_feedback.rb
 
-Currently, jenkins location and serial port where the arduino is connected are hardcoded.
+Options:
 
-* jenkins : http://localhost:8080/api/xml
-* serial : /dev/ttyACM0
-
-It should not be to difficult to change it to match your need.
+*  --jenkins, -j <s\>:   jenkins api url (default: http://localhost:8080/api/xml)
+*  --serial, -s <s\> :   Serial port use to communicate with arduino (default: /dev/ttyACM0)
+*  --refresh, -r <i\>:   Delay between requests to jenkins (in seconds) (default: 30)
+*  --help, -h        :   Show this message
 
 
 TODO
 ====
-* currently, jenkins location and serial device are hardcoded. That's not very nice...
 * improve xml parsing (it may be parse up to 3 times, I could probably find better solution :)
