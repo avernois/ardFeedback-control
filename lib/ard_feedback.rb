@@ -17,11 +17,14 @@ class ArdFeedback
         parse(xml_content)
         return :building if is_a_job_building
         return :failed if is_a_job 'red'
+        return :unstable if is_a_job 'yellow'
         return :success if is_a_job 'blue'
     end
 
     def light_led (status)
         case status
+        when :unstable
+            @serial.write("Y")
         when :building
             @serial.write("B")
         when :failed
