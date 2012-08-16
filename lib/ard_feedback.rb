@@ -37,6 +37,7 @@ if $0 == __FILE__
     else
         status_parser = JenkinsStatusParser.new
     end
+    
     while(true)
         xml_content = Net::HTTP::get(URI::parse(args[:url]))
         status = status_parser.get_status(xml_content)

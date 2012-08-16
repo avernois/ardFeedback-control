@@ -1,9 +1,6 @@
 require "test/unit"
 require_relative "../lib/ard_feedback_args.rb"
 
-
-
-
 class ArdFeedbackArgsTest < Test::Unit::TestCase
     def setup
         #as ARGV is system variable, we flush its content to prevent collision between test
@@ -23,7 +20,6 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
         ARGV[0] = "-u"
         ARGV[1] = "http://my-localhost/api/xml"
 
-
         args = ArdFeedbackArgs.parse_args
         assert_equal("http://my-localhost/api/xml", args[:url])
     end
@@ -34,7 +30,6 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
         args = ArdFeedbackArgs.parse_args
         assert_equal(true, args[:jenkins])
     end
-
 
     def test_should_accept_short_jenkins_arg
         ARGV[0] = "-j"

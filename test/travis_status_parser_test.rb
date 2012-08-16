@@ -48,7 +48,6 @@ EOL
 			"event_type":"push"}]
 EOL
 
-
 		@travis_status_parser = TravisStatusParser.new
 	end
 
