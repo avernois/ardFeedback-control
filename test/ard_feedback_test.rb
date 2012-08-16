@@ -16,17 +16,17 @@ class ArdFeedbackTest < Test::Unit::TestCase
 
     def test_build_with_at_least_one_red_and_no_anime_should_light_red
         @ardFeedback.light_led :failed
-        assert_equal("R", @serial.last_written)
+        assert_equal("F", @serial.last_written)
     end
 
     def test_build_with_only_blue_and_no_anime_should_light_green
         @ardFeedback.light_led :success
-        assert_equal("G", @serial.last_written)
+        assert_equal("S", @serial.last_written)
     end
 
     def test_unstable_should_light_yellow
         @ardFeedback.light_led :unstable
-        assert_equal("Y", @serial.last_written)
+        assert_equal("U", @serial.last_written)
     end
 
 end

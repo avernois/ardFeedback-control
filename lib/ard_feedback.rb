@@ -15,13 +15,13 @@ class ArdFeedback
     def light_led (status)
         case status
         when :unstable
-            @serial.write("Y")
+            @serial.write("U")
         when :building
             @serial.write("B")
         when :failed
-            @serial.write("R")
+            @serial.write("F")
         when :success
-            @serial.write("G")
+            @serial.write("S")
         end
     end
 
