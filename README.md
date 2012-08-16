@@ -5,7 +5,7 @@ Goal
 ----
 [ArdFeedback](https://github.com/avernois/ardFeedback) and ArdFeedback-Control are the two parts of an Extrem Device Feedback.
 
-ArdFeedback-Control is use to send command to an Arduino depending on status of build statuses of a Jenkins server.
+ArdFeedback-Control is use to send command to an Arduino depending on status of build statuses of a Jenkins or Travis.
 The Arduino should be connected to the computer where ArdFeedback-Control is running through serial.
 
 Usage
@@ -15,7 +15,9 @@ Usage
 
 Options:
 
-*  --jenkins, -j <s\>:   jenkins api url (default: http://localhost:8080/api/xml)
+*  --jenkins, -j     :   use with jenkins status (do not use with --travis)
+*  --travis, -t     :   use with travis support (do not use with --jenkins)
+*  --url, -u         :   url to check. /api/xml for jenkins, /builds.json for travis
 *  --serial, -s <s\> :   Serial port use to communicate with arduino (default: /dev/ttyACM0)
 *  --refresh, -r <i\>:   Delay between requests to jenkins (in seconds) (default: 30)
 *  --help, -h        :   Show this message
