@@ -3,7 +3,6 @@ require 'xmlsimple'
 require "serialport"
 require 'net/http'
 require 'uri'
-require "trollop"
 
 require_relative "ard_feedback_args.rb"
 
