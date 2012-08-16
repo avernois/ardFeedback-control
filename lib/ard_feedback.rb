@@ -5,6 +5,7 @@ require 'uri'
 
 require_relative "ard_feedback_args.rb"
 require_relative "jenkins_status_parser.rb"
+require_relative "travis_status_parser.rb"
 class ArdFeedback
 
     def initialize (serial)
@@ -30,9 +31,14 @@ if $0 == __FILE__
     args = ArdFeedbackArgs.parse_args
     serial = SerialPort.new(args[:serial], 9600)
     feedback = ArdFeedback.new serial
-    status_parser = JenkinsStatusParser.new
+   
+    if (args[:travis])
+        status_parser = TravisStatusParser.new
+    else
+        status_parser = JenkinsStatusParser.new
+    end
     while(true)
-        xml_content = Net::HTTP::get(URI::parse(args[:jenkins]))
+        xml_content = Net::HTTP::get(URI::parse(args[:url]))
         status = status_parser.get_status(xml_content)
         feedback.light_led(status)
 
