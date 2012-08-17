@@ -1,6 +1,13 @@
 require "test/unit"
 require_relative "../lib/ard_feedback_args.rb"
 
+module Trollop
+  def with_standard_exception_handling parser
+    yield
+  end
+  module_function :with_standard_exception_handling
+end
+
 class ArdFeedbackArgsTest < Test::Unit::TestCase
     def setup
         #as ARGV is system variable, we flush its content to prevent collision between test
@@ -81,7 +88,7 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_not_accept_travis_and_jenkins
         ARGV[0] = "-t"
         ARGV[1] = "-j"
-        assert_raise DieError do
+        assert_raise Trollop::CommandlineError do
           args = ArdFeedbackArgs.parse_args
         end
     end
@@ -111,14 +118,4 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
         args = ArdFeedbackArgs.parse_args
         assert_equal(30, args[:refresh])
     end
-end
-
-# Monkeypatch to mock the die behaviour (that would kill both script and test otherwise)
-class DieError < StandardError ; end
-
-module Trollop
-  def die arg, msg=nil
-    raise DieError
-  end
-module_function :options, :die
 end
