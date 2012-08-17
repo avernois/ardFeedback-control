@@ -65,7 +65,7 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_accept_serial_arg
         ARGV[0] = "--serial"
         ARGV[1] = "/dev/serial"
-        
+
         args = ArdFeedbackArgs.parse_args
         assert_equal("/dev/serial", args[:serial])
     end
@@ -73,7 +73,7 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_accept_short_serial_arg
         ARGV[0] = "-s"
         ARGV[1] = "/dev/serial"
-        
+
         args = ArdFeedbackArgs.parse_args
         assert_equal("/dev/serial", args[:serial])
     end
@@ -81,9 +81,9 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_not_accept_travis_and_jenkins
         ARGV[0] = "-t"
         ARGV[1] = "-j"
-
-        # well... I don't know how to test that : In that case, Trollop is suppose to die and kill my process. And by consequence kill the process of test... That's not fun
-        #args = ArdFeedbackArgs.parse_args
+        assert_raise DieError do
+          args = ArdFeedbackArgs.parse_args
+        end
     end
 
     def test_should_have_default_serial_arg
@@ -94,7 +94,7 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_accept_refresh_arg
         ARGV[0] = "--refresh"
         ARGV[1] = "60"
-        
+
         args = ArdFeedbackArgs.parse_args
         assert_equal(60, args[:refresh])
     end
@@ -102,7 +102,7 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
     def test_should_accept_short_refresh_arg
         ARGV[0] = "-r"
         ARGV[1] = "60"
-        
+
         args = ArdFeedbackArgs.parse_args
         assert_equal(60, args[:refresh])
     end
@@ -111,4 +111,14 @@ class ArdFeedbackArgsTest < Test::Unit::TestCase
         args = ArdFeedbackArgs.parse_args
         assert_equal(30, args[:refresh])
     end
+end
+
+# Monkeypatch to mock the die behaviour (that would kill both script and test otherwise)
+class DieError < StandardError ; end
+
+module Trollop
+  def die arg, msg=nil
+    raise DieError
+  end
+module_function :options, :die
 end
