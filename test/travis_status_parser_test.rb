@@ -47,6 +47,20 @@ EOL
 			"message":"[RJA-xxx][fix] Static resources should be packed and minified",
 			"event_type":"push"}]
 EOL
+		@json_created= <<EOL
+		[{"id":10272952,
+		  "repository_id":1174987,
+		  "number":"27",
+		  "state":"created",
+		  "result":null,
+		  "started_at":null,
+		  "finished_at":null,
+		  "duration":null,
+		  "commit":"d36ca75cc11713fbc8a756a9bcddd4b58b016576",
+		  "branch":"clean_view_files",
+		  "message":"remove yeoman favicon",
+          "event_type":"push"}]
+EOL
 
 		@travis_status_parser = TravisStatusParser.new
 	end
@@ -63,10 +77,15 @@ EOL
 		assert_equal(:failed, status)
 	end
 
-	def test_stared_is_building
+	def test_started_is_building
 		status = @travis_status_parser.get_status @json_started
 
 		assert_equal(:building, status)
 	end
 
+	def test_created_is_building
+		status = @travis_status_parser.get_status @json_created
+
+		assert_equal(:building, status)
+	end
 end
