@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    json (1.7.4)
+    json (2.3.0)
     serialport (1.1.0)
     trollop (2.0)
     xml-simple (1.1.1)
